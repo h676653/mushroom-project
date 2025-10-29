@@ -1,0 +1,2 @@
+cap_shape,cap_surface,cap_color,bruises,odor,gill_attachment,gill_spacing,gill_size,gill_color,stalk_shape,stalk_root,stalk_surface_above_ring,stalk_surface_below_ring,stalk_color_above_ring,stalk_color_below_ring,veil_type,veil_color,ring_number,ring_type,spore_print_color,population,habitat,Prediction Result,timestamp
+b,f,b,f,a,a,c,b,b,e,?,f,f,b,b,p,n,n,e,b,a,d,"Poisonous (Edible: 0.38, Poisonous: 0.62)",2025-10-29 12:57:01.493606

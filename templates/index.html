@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mushroom Classifier</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    .field { margin-bottom: 10px; }
+    label { display:block; font-weight: bold; margin-bottom: 4px; }
+    button { padding: 8px 12px; }
+    #result { margin-top: 16px; font-size: 1.1em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Mushroom: Edible or Poisonous?</h1>
+  <p>Select values for the mushroom features and click <strong>Predict</strong>.</p>
+
+  <form id="mushForm" onsubmit="return false;">
+    <div id="fields"></div>
+    <button id="predictBtn">Predict</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    // features_meta injected by server (Jinja)
+    const featuresMeta = {{ features_meta | tojson }};
+    const fieldsDiv = document.getElementById('fields');
+
+    // Build form (select for each feature)
+    for (const [feature, values] of Object.entries(featuresMeta)) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'field';
+      const label = document.createElement('label');
+      label.textContent = feature;
+      const select = document.createElement('select');
+      select.name = feature;
+      // empty option
+      const opt0 = document.createElement('option');
+      opt0.value = '';
+      opt0.textContent = '-- choose --';
+      select.appendChild(opt0);
+      for (const v of values) {
+        const option = document.createElement('option');
+        option.value = v;
+        option.textContent = v;
+        select.appendChild(option);
+      }
+      wrapper.appendChild(label);
+      wrapper.appendChild(select);
+      fieldsDiv.appendChild(wrapper);
+    }
+
+    document.getElementById('predictBtn').addEventListener('click', async () => {
+      const form = document.getElementById('mushForm');
+      const data = {};
+      new FormData(form).forEach((v, k) => data[k] = v);
+      // optional: ensure all fields selected
+      // Send JSON POST
+      const res = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      let html = `Prediction: <strong>${result.label.toUpperCase()}</strong>`;
+      if (result.probability) {
+        html += `<br>Probability: ${JSON.stringify(result.probability)}`;
+      }
+      document.getElementById('result').innerHTML = html;
+    });
+  </script>
+</body>
+</html>

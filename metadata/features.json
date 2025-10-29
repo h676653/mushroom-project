@@ -1,0 +1,163 @@
+{
+  "cap_shape": [
+    "b",
+    "c",
+    "f",
+    "k",
+    "s",
+    "x"
+  ],
+  "cap_surface": [
+    "f",
+    "g",
+    "s",
+    "y"
+  ],
+  "cap_color": [
+    "b",
+    "c",
+    "e",
+    "g",
+    "n",
+    "p",
+    "r",
+    "u",
+    "w",
+    "y"
+  ],
+  "bruises": [
+    "f",
+    "t"
+  ],
+  "odor": [
+    "a",
+    "c",
+    "f",
+    "l",
+    "m",
+    "n",
+    "p",
+    "s",
+    "y"
+  ],
+  "gill_attachment": [
+    "a",
+    "f"
+  ],
+  "gill_spacing": [
+    "c",
+    "w"
+  ],
+  "gill_size": [
+    "b",
+    "n"
+  ],
+  "gill_color": [
+    "b",
+    "e",
+    "g",
+    "h",
+    "k",
+    "n",
+    "o",
+    "p",
+    "r",
+    "u",
+    "w",
+    "y"
+  ],
+  "stalk_shape": [
+    "e",
+    "t"
+  ],
+  "stalk_root": [
+    "?",
+    "b",
+    "c",
+    "e",
+    "r"
+  ],
+  "stalk_surface_above_ring": [
+    "f",
+    "k",
+    "s",
+    "y"
+  ],
+  "stalk_surface_below_ring": [
+    "f",
+    "k",
+    "s",
+    "y"
+  ],
+  "stalk_color_above_ring": [
+    "b",
+    "c",
+    "e",
+    "g",
+    "n",
+    "o",
+    "p",
+    "w",
+    "y"
+  ],
+  "stalk_color_below_ring": [
+    "b",
+    "c",
+    "e",
+    "g",
+    "n",
+    "o",
+    "p",
+    "w",
+    "y"
+  ],
+  "veil_type": [
+    "p"
+  ],
+  "veil_color": [
+    "n",
+    "o",
+    "w",
+    "y"
+  ],
+  "ring_number": [
+    "n",
+    "o",
+    "t"
+  ],
+  "ring_type": [
+    "e",
+    "f",
+    "l",
+    "n",
+    "p"
+  ],
+  "spore_print_color": [
+    "b",
+    "h",
+    "k",
+    "n",
+    "o",
+    "r",
+    "u",
+    "w",
+    "y"
+  ],
+  "population": [
+    "a",
+    "c",
+    "n",
+    "s",
+    "v",
+    "y"
+  ],
+  "habitat": [
+    "d",
+    "g",
+    "l",
+    "m",
+    "p",
+    "u",
+    "w"
+  ]
+}
