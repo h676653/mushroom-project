@@ -1,0 +1,182 @@
+Project link: https://huggingface.co/spaces/Mikywelly/mushroom-project
+
+[Mushroom-Classifier]
+[Anthony James Blackie, Mohamed Suleiman, Michael Fsehaye], [2. Nov. 2025]
+1: Edible or poisonous mushrooms
+SCOPE
+The goal of this project is to build a machine learning system that can predict whether a mushroom is edible or poisonous based on its physical characteristics (such as cap shape, color, odor, gill size, etc.). The system can assist users in making safer decisions, especially when identifying mushrooms in the wild. There are systems and methods today to distinguish whether a mushroom is poisonous, but it’s important to note that no method is 100% reliable outside of expert knowledge.
+
+1. Modern Approaches / Systems
+   • Mobile apps like iNaturalist, Shroomify, or Mushroom Identificator use photo recognition to suggest species.
+   • Some combine computer vision / ML with a database of known mushrooms.
+   • Accuracy varies; many apps warn against relying solely on them for edible vs. poisonous identification.
+
+2. Visual identification
+   • Shape, color, gills, stem, spore print, smell, habitat, and season are used.
+   • Example: Some edible mushrooms have characteristic spore print colors.
+
+3. Ensuring Safety / Market Success
+   For any consumer-facing solution (app, guide, testing kit):
+   • Accuracy is critical – misidentifying mushrooms can be fatal.
+   • User education – apps must emphasize caution and encourage expert consultation.
+   • Verification tools – combining multiple methods (photo recognition + expert review + spore print check) increases reliability.
+
+Identifying mushrooms safely requires experience and detailed botanical knowledge. Many edible and poisonous mushrooms look similar, and:
+• Misidentification can lead to serious illness or death
+• Beginners cannot easily rely on visual judgment alone
+
+Machine learning provides a solution by:
+• Learning patterns from a large dataset of labeled mushrooms
+• Making predictions quickly and consistently
+• Reducing human error in classification
+
+How the System Will Be Used
+
+The system takes mushroom attributes as input (through a dropdown selection), and the trained model predicts whether the mushroom is Edible or Poisonous.
+Changing the model (e.g., choosing different algorithms or retraining) will directly influence prediction accuracy and user safety.
+
+Required Resources & System
+Resource Purpose
+Mushroom dataset Training data
+Python environment Model training and testing
+Model deployment interface (app.py) User interaction
+CPU Sufficient for model inference
+
+And some necessary code for gradio and deployment.
+
+Users/customers uses the product:
+
+User Group How they benefit
+Foragers Quick safety reference outdoors
+Students Learning tool for mushroom taxonomy
+Hiking / Outdoor communities Extra safety when exploring na
+
+METRICS
+ML Performance Metrics
+
+- Accuracy – overall correctness of predictions
+- Precision (poisonous) – how many mushrooms predicted poisonous are actually poisonous
+- Recall (poisonous) – how many poisonous mushrooms the model successfully detects
+  Most critical metric (to avoid misclassifying poisonous mushrooms as edible)
+- F1-Score – balances precision and recall
+- Confusion Matrix – shows types of model mistakes
+  Software Metrics
+- Latency: Time to return prediction (< 1 second needed for good UX)
+- Usability Feedback: Users should easily understand inputs and results
+- Throughput: Useful if scaled to many users in the future
+  Minimum Success Criteria
+- Recall (poisonous class): ≥ 98% (safety priority)
+- Accuracy: ≥ 95%
+- Fast response: Prediction returned within 1 second
+- Clear, understandable UI: Users trust and can act confidently on results
+
+2: DATA
+The project uses mushroom attribute data, where each mushroom is described by its physical and sensory characteristics such as:
+
+Feature (Example) Meaning
+cap-shape Shape of mushroom cap (e.g., convex, flat, bell)
+cap-color Color of the mushroom cap
+odor Smell (e.g., almond, foul, none)
+gill-size Size of the gills under the mushroom cap
+habitat Environment where it grows
+
+And all the above features´s type is categorical. The target label (what we want to predict) is whether the mushroom is edible or poisonous: Label e for edible and lable p for posionous.
+
+Source of the Data
+
+The dataset comes from the UCI Machine Learning Repository, which is a reliable open research dataset source. It is historically used for mushroom identification research.
+
+Dataset name: Mushroom Classification Dataset
+
+Dataset Size
+
+The dataset contains:
+• 8,124 mushroom samples
+• 22 categorical features
+• Balanced classes:
+4,208 edible mushrooms
+3,916 poisonous mushrooms
+
+Because the dataset is large and balanced, no additional data collection or class balancing is needed.
+
+Ground Truth Labels
+
+This is a supervised learning problem.
+The ground truth labels (edible or poisonous) were defined by mycologists (mushroom experts), which means the label accuracy is very high.
+
+Ethical and Safety Considerations
+
+This system should not be used as the sole decision tool when identifying mushrooms in real life.
+
+Important:
+A false prediction of edible when poisonous is dangerous, therefore the model must focus on high recall for poisonous mushrooms.
+
+No personal data is used → No privacy concerns.
+
+Data Representation for Machine Learning
+
+Since all features are categorical, they must be converted into numerical format.
+
+Encoding method: One-Hot Encoding
+Each category becomes its own binary feature.
+
+Data Cleaning & Preparation Needs
+Task Action Reason
+Handle categorical features One-Hot Encoding Makes data usable in ML models
+Remove missing values Not required (dataset is already clean) Dataset is well-prepared
+Scaling Not necessary Random Forest does not require scaling
+Splitting data 80% training / 20% testing To evaluate generalization
+3: MODELING
+In this project, we used supervised classification, where the goal is to predict whether a mushroom is edible (0) or poisonous (1) based on categorical features such as cap color, odor, population, etc.
+
+A Random Forest Classifier is selected as the primary model. A Random Forest is an ensemble of many decision trees, making it more robust and less prone to overfitting compared to a single decision tree. This is useful because the mushroom dataset consists entirely of categorical features, and Random Forests handle such data effectively when combined with One-Hot Encoding.
+
+Baseline Model
+Our simple baseline strategy “human-level performance” is always predicting the majority class (e.g., predict “poisonous” every time). This yields an accuracy around ~52–60%, depending on class distribution.
+
+Final Model
+
+The final model is a RandomForestClassifier inside a Pipeline:
+
+We used GridSearchCV to tune parameters such as:
+• Number of trees (n_estimators)
+• Maximum depth of trees (max_depth)
+Cross-validation (cv=5) ensured that the model generalizes and does not overfit.
+Performance Insight
+
+The model performance is measured using:
+• Accuracy
+• F1-score
+• Confusion Matrix
+
+Because misclassifying a poisonous mushroom as edible is dangerous, the priority metric is F1-score of the “poisonous” class — not just overall accuracy.
+
+4: DEPLOYMENT
+The model is deployed as part of a web application where users can input mushroom characteristics and receive a prediction indicating whether the mushroom is edible or poisonous.
+
+How the Model Will Be Used 1. The trained model (model.joblib) and feature metadata (features.json) are loaded in a Flask web server (app.py). 2. The web interface allows the user to select mushroom properties (such as color, odor, population, habitat, etc.) from dropdown menus. 3. When the user submits the form, the input is pre-processed using the same OneHotEncoder configuration that was learned during training. 4. The model outputs a prediction:
+0 → Edible
+1 → Poisonous 5. The result is displayed to the user in a clear and safe manner.
+
+Deployment Environment
+• Backend Framework: Flask (Python)
+• Model Serialization: Joblib
+• Frontend: HTML templates + form dropdowns (populated using features.json)
+• Hosting:
+
+- Local machine (development)
+- Cloud services: gradio
+  Future Monitoring:
+  We did not implemet a log on this moment but to ensure reliability and safety;
+  We will log model predictions and user inputs (without personal data) to monitor:
+  • How often predictions are edible vs. poisonous
+  • Whether the model encounters unfamiliar input values
+  • If the system starts making inconsistent predictions, the model can be retrained with updated data.
+  Future Improvements:
+  • Integrate image recognition (upload a mushroom image → model predicts class).
+  • Use user feedback (e.g., “I disagree with this result”) to refine the dataset.
+  • Deploy a mobile app version for field use.
+  5: REFERENCES
+- Datasett: https://archive.ics.uci.edu/dataset/73/mushroom
+- Some help from ChatGPT for structuring Gradio, how to deploying the model using a Flask web application in Gradio and other general syntax.
+- Book: Hands-on ML
