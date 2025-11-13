@@ -70,6 +70,20 @@ ML Performance Metrics
 - Fast response: Prediction returned within 1 second
 - Clear, understandable UI: Users trust and can act confidently on results
 
+--- Classification Report ---
+              precision    recall  f1-score   support
+
+     eatable       1.00      1.00      1.00       842
+   poisonous       1.00      1.00      1.00       783
+
+    accuracy                           1.00      1625
+   macro avg       1.00      1.00      1.00      1625
+weighted avg       1.00      1.00      1.00      1625
+
+--- Confusion Matrix ---
+[[842   0]
+ [  0 783]]
+
 2: DATA
 The project uses mushroom attribute data, where each mushroom is described by its physical and sensory characteristics such as:
 
